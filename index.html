@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Provable Speech Attribute Control via Latent Independence</title>
+    <style>
+        :root {
+            --bg1: #0d1026;
+            --bg2: #111735;
+            --fg: #e7e9f0;
+            --muted: #9aa0b5;
+            --accent1: #6a8dff;
+            --accent2: #8a4dff;
+            --accent3: #2ee6ff;
+            --radius: 14px;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+            --section-bg: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(180deg, var(--bg1), var(--bg2));
+            color: var(--fg);
+            font-family: Inter, system-ui, sans-serif;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        p {
+            margin-top: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 32px 20px 60px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(135deg, rgba(138, 77, 255, 0.22), rgba(106, 141, 255, 0.7));
+            color: white;
+            border-radius: var(--radius);
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+        }
+
+        .section {
+            background: var(--section-bg);
+            padding: 24px 28px;
+            border-radius: var(--radius);
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .section h2 {
+            text-align: center;
+            color: var(--accent3);
+            margin-bottom: 16px;
+        }
+
+        .section p,
+        .section li {
+            color: var(--fg);
+        }
+
+        .figure {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .figure img {
+            width: 80%;
+            max-width: 900px;
+            height: auto;
+            border-radius: 12px;
+        }
+
+        .note {
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 22px;
+        }
+
+        li + li {
+            margin-top: 10px;
+        }
+
+        .audio-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 880px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid var(--border);
+            padding: 12px 10px;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        th {
+            color: var(--accent3);
+            font-weight: 600;
+        }
+
+        .group-row td {
+            background: rgba(46, 230, 255, 0.08);
+            color: var(--accent3);
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        audio {
+            width: 100%;
+            height: 40px;
+            margin-top: 6px;
+        }
+
+        small {
+            color: var(--muted);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.9rem;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>Provable Speech Attribute Control <br> via Latent Independence</h1>
+            <p><strong>Anonymous</strong></p>
+            <p>Speaker conversion samples</p>
+        </div>
+
+        <div class="section">
+            <h2>Model</h2>
+            <div class="figure">
+                <img src="model.png" alt="Model overview" />
+            </div>
+            <p>
+                Independence-based Voice Conversion (<strong>IVC</strong>) consists of an
+                <strong>encoder</strong> predicting content-like latent variable <strong>Ŝ</strong>
+                and a <strong>decoder</strong> conditioned on speaker, or pitch signal <strong>C</strong>.
+                The model is trained with discrepancy loss <strong>R</strong> and independence loss
+                <strong>I</strong>.
+            </p>
+        </div>
+
+        <div class="section">
+           <h2>Highlights</h2>
+<ul>
+    <li>Provides <strong>theoretical guarantees</strong> showing that recovering the latent variable up to an invertible transformation is sufficient for correct attribute conversion.</li>
+    
+    <li>Derives an explicit <strong>conversion error bound</strong> under imperfect reconstruction and imperfect independence.</li>
+    
+    <li>Enables simplified training using only MSE and HSIC losses, with <strong>no adversarial training</strong>.</li>
+    
+    <li>Supports both <strong>global and sequential conditioning</strong>, including attributes such as speaker identity and pitch.</li>
+    
+    <li>Performs one-shot conversion from a <strong>single reference utterance of at least 3 seconds</strong>.</li>
+    
+    <li>Achieves <strong>linear-time inference</strong>, improving over the O(n²) complexity of KNN-VC.</li>
+    
+    <li>Obtains competitive or superior performance compared to recent speech style conversion baselines.</li>
+</ul>
+        </div>
+
+        <div class="section">
+            <h2>Abstract</h2>
+            <p>
+                Conditional generation and disentangled representation learning are central to controlled generation
+                across audio, vision, and multimodal domains. However, despite strong empirical progress,
+                particularly in speech style transfer, most existing approaches rely on heuristic objectives and
+                architectural choices, offering limited theoretical understanding of when and why reliable attribute
+                control is achievable. In this work, we develop a formal framework for speech attribute conversion
+                and provide a theoretical analysis of sufficient conditions under which exact and consistent transfer
+                is possible. Our analysis focuses on a deterministic autoencoder setting augmented with an
+                independence constraint between the learned latent representation and the controllable attribute.
+                Under explicit population-level assumptions on the data-generating process, we establish guarantees
+                that link reconstruction, independence, and the feasibility of attribute manipulation while
+                preserving task-relevant content. We complement the theoretical results with empirical evaluations
+                on the voice and pitch conversion tasks, showing that the proposed framework achieves competitive
+                performance in practical speech style transfer settings.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Speaker Conversion</h2>
+            <p class="note">
+                10 source speakers, 3 utterances per speaker, and 3 target speakers per utterance
+                for a total of 90 examples. Each utterance uses a different target-speaker trio.
+                Each row contains the original source utterance,
+                a reference utterance from the target speaker, and the converted result.
+            </p>
+            <div class="audio-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Target (reference)</th>
+                            <th>Converted</th>
+                        </tr>
+                    </thead>
+                    <tbody id="examples-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sourceGroups = [
+            {
+                speaker: "1089",
+                samples: [
+                    { utterance: "1089-134686-0005", targets: ["672", "1320", "2830"] },
+                    { utterance: "1089-134686-0008", targets: ["672", "2830", "7127"] },
+                    { utterance: "1089-134686-0023", targets: ["672", "4077", "4446"] }
+                ]
+            },
+            {
+                speaker: "1188",
+                samples: [
+                    { utterance: "1188-133604-0009", targets: ["672", "5105", "8555"] },
+                    { utterance: "1188-133604-0015", targets: ["1320", "3570", "5105"] },
+                    { utterance: "1188-133604-0025", targets: ["1320", "4446", "4507"] }
+                ]
+            },
+            {
+                speaker: "121",
+                samples: [
+                    { utterance: "121-123852-0002", targets: ["2830", "3570", "4446"] },
+                    { utterance: "121-123859-0001", targets: ["2830", "4077", "7127"] },
+                    { utterance: "121-123859-0002", targets: ["3570", "3729", "4077"] }
+                ]
+            },
+            {
+                speaker: "1221",
+                samples: [
+                    { utterance: "1221-135766-0004", targets: ["3570", "4446", "8555"] },
+                    { utterance: "1221-135767-0002", targets: ["3729", "4446", "4507"] },
+                    { utterance: "1221-135767-0005", targets: ["4077", "4446", "5683"] }
+                ]
+            },
+            {
+                speaker: "1284",
+                samples: [
+                    { utterance: "1284-1180-0019", targets: ["4446", "5105", "5683"] },
+                    { utterance: "1284-1181-0006", targets: ["672", "1320", "5105"] },
+                    { utterance: "1284-1181-0010", targets: ["672", "3570", "5105"] }
+                ]
+            },
+            {
+                speaker: "1580",
+                samples: [
+                    { utterance: "1580-141083-0003", targets: ["672", "4446", "4507"] },
+                    { utterance: "1580-141083-0029", targets: ["1320", "2830", "4077"] },
+                    { utterance: "1580-141084-0029", targets: ["1320", "3729", "4507"] }
+                ]
+            },
+            {
+                speaker: "1995",
+                samples: [
+                    { utterance: "1995-1826-0026", targets: ["1320", "4507", "5683"] },
+                    { utterance: "1995-1836-0005", targets: ["2830", "3729", "4077"] },
+                    { utterance: "1995-1836-0013", targets: ["2830", "4446", "8555"] }
+                ]
+            },
+            {
+                speaker: "2094",
+                samples: [
+                    { utterance: "2094-142345-0003", targets: ["3570", "3729", "8555"] },
+                    { utterance: "2094-142345-0006", targets: ["3570", "5105", "7127"] },
+                    { utterance: "2094-142345-0011", targets: ["3729", "4507", "5683"] }
+                ]
+            },
+            {
+                speaker: "2300",
+                samples: [
+                    { utterance: "2300-131720-0003", targets: ["4077", "4507", "8555"] },
+                    { utterance: "2300-131720-0008", targets: ["4507", "5105", "5683"] },
+                    { utterance: "2300-131720-0009", targets: ["672", "2830", "4077"] }
+                ]
+            },
+            {
+                speaker: "237",
+                samples: [
+                    { utterance: "237-126133-0002", targets: ["672", "3729", "4507"] },
+                    { utterance: "237-126133-0005", targets: ["672", "4507", "5683"] },
+                    { utterance: "237-126133-0007", targets: ["1320", "2830", "8555"] }
+                ]
+            }
+        ];
+
+        const tbody = document.getElementById("examples-body");
+
+        for (const group of sourceGroups) {
+            const groupRow = document.createElement("tr");
+            groupRow.className = "group-row";
+            groupRow.innerHTML = `<td colspan="3">Source speaker ${group.speaker}</td>`;
+            tbody.appendChild(groupRow);
+
+            for (const sample of group.samples) {
+                for (const target of sample.targets) {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>
+                            <strong>Source ${group.speaker}</strong><br>
+                            <audio controls preload="metadata" src="example_speaker/${sample.utterance}_source.wav"></audio><br>
+                            <small>${sample.utterance}</small>
+                        </td>
+                        <td>
+                            Speaker ${target} (ref)<br>
+                            <audio controls preload="metadata" src="example_speaker/${target}_reference.wav"></audio>
+                        </td>
+                        <td>
+                            Converted to ${target}<br>
+                            <audio controls preload="metadata" src="example_speaker/${sample.utterance}_converted_to_${target}.wav"></audio>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
